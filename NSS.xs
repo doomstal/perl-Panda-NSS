@@ -13,6 +13,7 @@
 #include <prerror.h>
 #include <unistd.h>
 
+
 typedef CERTCertificate* Panda__NSS__Cert;
 
 static const char NS_CERT_HEADER[]  = "-----BEGIN CERTIFICATE-----";
@@ -97,7 +98,9 @@ void
 add_new_module(const char* module_name, const char* dll_path)
   PREINIT:
     SECStatus status;
+    int type;
   CODE:
+    SECMOD_DeleteModule(module_name, &type);
     status = SECMOD_AddNewModule(module_name, dll_path, 0, 0);
     if (status != SECSuccess) {
         PNSS_croak();
